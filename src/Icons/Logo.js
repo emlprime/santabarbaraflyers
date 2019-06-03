@@ -107,7 +107,11 @@ const SvgLogo = props => (
         fill="#60371D"
       />
       <g transform="rotate(19 53 -1.782)">
-        <use fill="#000" filter="url(#Logo_svg__a)" xlinkHref="#Logo_svg__b" />
+        <use
+          fill="#F4C400"
+          filter="url(#Logo_svg__a)"
+          xlinkHref="#Logo_svg__b"
+        />
         <path
           stroke="url(#Logo_svg__c)"
           d="M47.262 30.372c.644-.149 1.296-.453 1.914-.903 1.85-1.346 2.987-5.986 3.329-12.185.238-4.321-1.304-9.075-3.588-11.27-1.727-1.662-3.585-1.615-5.374.435 2.408-1.656 4.414-1.195 5.908.982 1.287 1.875 2.248 4.71 2.71 7.842.04.267.015.508-.06.841l-.034.143c-.08.335-.098.47-.078.611.088.606.025 1.034-.266 2.358-.127.576-.19.906-.233 1.263-.411 3.44-1.533 6.874-2.998 8.733-.392.498-.804.882-1.23 1.15z"
@@ -115,7 +119,11 @@ const SvgLogo = props => (
         />
       </g>
       <g transform="rotate(19 61.101 6.546)">
-        <use fill="#000" filter="url(#Logo_svg__d)" xlinkHref="#Logo_svg__e" />
+        <use
+          fill="#F4C400"
+          filter="url(#Logo_svg__d)"
+          xlinkHref="#Logo_svg__e"
+        />
         <use fill="#F39927" xlinkHref="#Logo_svg__e" />
       </g>
     </g>
