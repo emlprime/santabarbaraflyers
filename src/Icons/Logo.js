@@ -68,7 +68,7 @@ const SvgLogo = props => (
         />
       </filter>
     </defs>
-    <g fill="none" fillRule="evenodd">
+    <g fillRule="evenodd">
       <text
         fontFamily="Futura-Medium, Futura"
         fontSize={7}

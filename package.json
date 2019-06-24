@@ -6,7 +6,9 @@
         "react": "^16.8.6",
         "react-dom": "^16.8.6",
         "react-scripts": "3.0.1",
-        "react-svg-morph": "^0.2.1"
+        "react-svg-morph": "^0.2.1",
+        "react-testing-library": "^8.0.1",
+        "styled-components": "^4.2.1"
     },
     "scripts": {
         "start": "react-scripts start",
@@ -38,7 +40,6 @@
         "@storybook/addon-links": "^5.0.11",
         "@storybook/addons": "^5.0.11",
         "@storybook/react": "^5.0.11",
-        "@svgr/cli": "^4.3.0",
-        "babel-loader": "^8.0.6"
+        "@svgr/cli": "^4.3.0"
     }
 }
