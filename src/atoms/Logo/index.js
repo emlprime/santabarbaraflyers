@@ -8,7 +8,7 @@ const Logo = () => {
   setTimeout(() => setChecked(true), 2000);
   return (
     <div title="Santa Barbara Flyers Dog Sports">
-      <MorphReplace width={200} height={56}>
+      <MorphReplace width={56} height={56}>
         {checked ? <SvgLogo key="final" /> : <Hoop key="initial" />}
       </MorphReplace>
     </div>
