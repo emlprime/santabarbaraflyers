@@ -20,6 +20,9 @@ const CardStyle = styled.div`
     "avatar name breed" 50px
     "avatar trainer time" 50px
     / 100px 1fr 80px;
+  box-shadow: 1px 1px 3px;
+  align-items: center;
+  margin: 10px;
   .avatar {
     grid-area: avatar;
   }
@@ -29,12 +32,14 @@ const CardStyle = styled.div`
 
   .breed {
     grid-area: breed;
+    text-align: right;
   }
   .trainer {
     grid-area: trainer;
   }
   .time {
     grid-area: time;
+    text-align: right;
   }
 `;
 
@@ -81,9 +86,13 @@ const Events = () => {
 export default Events;
 
 const Style = styled.section`
-  * {
+  h1,
+  h2 {
     margin: 0;
     padding: 0;
+  }
+  ul {
+    list-style-type: none;
   }
   outline: 1px solid red;
   height: 95vh;
@@ -95,13 +104,14 @@ const Style = styled.section`
   h2 {
     outline: 1px solid pink;
   }
-  div {
+  > div {
     outline: 1px solid purple;
-    ul {
+    > ul {
       display: flex;
       flex-direction: column;
       justify-content: space-around;
-      li {
+      > li {
+        margin-bottom: 1em;
       }
     }
   }
