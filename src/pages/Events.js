@@ -1,8 +1,42 @@
 import React from "react";
 import styled from "styled-components";
-const Card = ({ name }) => {
-  return <div>{name}</div>;
+
+const Card = ({ name, avatar, breed, trainer, time }) => {
+  return (
+    <CardStyle>
+      <div className="avatar">{avatar}</div>
+      <div className="name">{name}</div>
+      <div className="breed">{breed}</div>
+      <div className="trainer">{trainer}</div>
+      <div className="time">{time}</div>
+    </CardStyle>
+  );
 };
+
+const CardStyle = styled.div`
+  display: grid;
+  height: 100px;
+  grid-template:
+    "avatar name breed" 50px
+    "avatar trainer time" 50px
+    / 100px 1fr 80px;
+  .avatar {
+    grid-area: avatar;
+  }
+  .name {
+    grid-area: name;
+  }
+
+  .breed {
+    grid-area: breed;
+  }
+  .trainer {
+    grid-area: trainer;
+  }
+  .time {
+    grid-area: time;
+  }
+`;
 
 const Events = () => {
   return (
@@ -14,9 +48,11 @@ const Events = () => {
           <li>
             8"
             <Card
+              avatar="Avatar woo"
               name="Fido"
               breed="Mini Poodle"
               trainer="Joan White"
+              time="7:00pm"
             />
             <Card
               name="Rolf"
