@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import dogs from "../events_stub.json";
 
 const Card = ({ name, avatar, breed, trainer, time }) => {
   return (
@@ -23,11 +24,13 @@ const CardStyle = styled.div`
   box-shadow: 1px 1px 3px;
   align-items: center;
   margin: 10px;
+  padding: 0.5rem;
   .avatar {
     grid-area: avatar;
   }
   .name {
     grid-area: name;
+    font-weight: bold;
   }
 
   .breed {
@@ -42,66 +45,6 @@ const CardStyle = styled.div`
     text-align: right;
   }
 `;
-
-const dogs = {
-  8: [
-    {
-      avatar: "Avatar woo",
-      name: "Fido",
-      breed: "Mini Poodle",
-      trainer: "Joan White",
-      time: "7:00pm"
-    },
-    {
-      avatar: "Avatar2",
-      name: "Rolf",
-      breed: "Corgie",
-      trainer: "Brenda Smith",
-      time: "7:10pm"
-    }
-  ],
-  20: [
-    {
-      avatar: "Kristin",
-      name: "Frejka",
-      breed: "Icelandic Sheepdog",
-      trainer: "KH",
-      time: "7:20pm"
-    },
-    {
-      avatar: "Peter",
-      name: "Donk",
-      breed: "Poodle",
-      trainer: "PS",
-      time: "7:30pm"
-    }
-  ],
-  24: [
-    {
-      avatar: "Derek",
-      name: "Rusty",
-      breed: "Golden",
-      trainer: "DC",
-      time: "7:40pm"
-    },
-    {
-      avatar: "Jack",
-      name: "Ponga",
-      breed: "Cool",
-      trainer: "JW",
-      time: "7:50pm"
-    }
-  ],
-  10: [
-    {
-      avatar: "Elaina",
-      name: "Thor",
-      breed: "lab",
-      trainer: "ER",
-      time: "8:00"
-    }
-  ]
-};
 
 const jumpHeights = [8, 10, 20, 24];
 
@@ -135,18 +78,16 @@ const Style = styled.section`
   ul {
     list-style-type: none;
   }
-  outline: 1px solid red;
+
   height: 95vh;
   display: grid;
   grid-template: "header" 30px "subheader" 32px "content";
   h1 {
-    outline: 1px solid green;
   }
   h2 {
-    outline: 1px solid pink;
+    margin-left: 1em;
   }
   > div {
-    outline: 1px solid purple;
     > ul {
       display: flex;
       flex-direction: column;
