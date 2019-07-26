@@ -43,56 +43,67 @@ const CardStyle = styled.div`
   }
 `;
 
-const standardEight = [
-  {
-    avatar: "Avatar woo",
-    name: "Fido",
-    breed: "Mini Poodle",
-    trainer: "Joan White",
-    time: "7:00pm"
-  },
-  {
-    avatar: "Avatar2",
-    name: "Rolf",
-    breed: "Corgie",
-    trainer: "Brenda Smith",
-    time: "7:10pm"
-  }
-];
+const dogs = {
+  8: [
+    {
+      avatar: "Avatar woo",
+      name: "Fido",
+      breed: "Mini Poodle",
+      trainer: "Joan White",
+      time: "7:00pm"
+    },
+    {
+      avatar: "Avatar2",
+      name: "Rolf",
+      breed: "Corgie",
+      trainer: "Brenda Smith",
+      time: "7:10pm"
+    }
+  ],
+  20: [
+    {
+      avatar: "Kristin",
+      name: "Frejka",
+      breed: "Icelandic Sheepdog",
+      trainer: "KH",
+      time: "7:20pm"
+    },
+    {
+      avatar: "Peter",
+      name: "Donk",
+      breed: "Poodle",
+      trainer: "PS",
+      time: "7:30pm"
+    }
+  ],
+  24: [
+    {
+      avatar: "Derek",
+      name: "Rusty",
+      breed: "Golden",
+      trainer: "DC",
+      time: "7:40pm"
+    },
+    {
+      avatar: "Jack",
+      name: "Ponga",
+      breed: "Cool",
+      trainer: "JW",
+      time: "7:50pm"
+    }
+  ],
+  10: [
+    {
+      avatar: "Elaina",
+      name: "Thor",
+      breed: "lab",
+      trainer: "ER",
+      time: "8:00"
+    }
+  ]
+};
 
-const standardTwenty = [
-  {
-    avatar: "Kristin",
-    name: "Frejka",
-    breed: "Icelandic Sheepdog",
-    trainer: "KH",
-    time: "7:20pm"
-  },
-  {
-    avatar: "Peter",
-    name: "Donk",
-    breed: "Poodle",
-    trainer: "PS",
-    time: "7:30pm"
-  }
-];
-
-const standardTwentyFour = [
-  {
-    avatar: "Derek",
-    name: "Rusty",
-    breed: "Golden",
-    trainer: "DC",
-    time: "7:40pm"
-  },
-  {
-    avatar: "Jack",
-    name: "Ponga",
-    breed: "Cool",
-    trainer: "JW",
-    time: "7:50pm"
-  }
-];
+const jumpHeights = [8, 10, 20, 24];
 
 const Events = () => {
   return (
@@ -100,24 +111,13 @@ const Events = () => {
       <h1> Events </h1> <h2> Standard </h2>
       <div>
         <ul>
-          <li>
-            8 "
-            {standardEight.map(dog => (
-              <Card {...dog} />
-            ))}
-          </li>
-          <li>
-            20 "
-            {standardTwenty.map(dog => (
-              <Card {...dog} />
-            ))}
-          </li>
-          <li>
-            24 "
-            {standardTwentyFour.map(dog => (
-              <Card {...dog} />
-            ))}
-          </li>
+          {jumpHeights.map(height => (
+            <li>
+              {height}"
+              {dogs[height] &&
+                dogs[height].map(dog => <Card {...dog} />)}
+            </li>
+          ))}
         </ul>
       </div>
     </Style>
