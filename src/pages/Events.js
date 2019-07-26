@@ -36,6 +36,7 @@ const Style = styled.section`
   }
 
   height: 95vh;
+  width: 100%;
   display: grid;
   grid-template: "header" 30px "subheader" 32px "content";
   h1 {
