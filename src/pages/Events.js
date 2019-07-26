@@ -4,11 +4,11 @@ import styled from "styled-components";
 const Card = ({ name, avatar, breed, trainer, time }) => {
   return (
     <CardStyle>
-      <div className="avatar">{avatar}</div>
-      <div className="name">{name}</div>
-      <div className="breed">{breed}</div>
-      <div className="trainer">{trainer}</div>
-      <div className="time">{time}</div>
+      <div className="avatar"> {avatar} </div>{" "}
+      <div className="name"> {name} </div>{" "}
+      <div className="breed"> {breed} </div>{" "}
+      <div className="trainer"> {trainer} </div>{" "}
+      <div className="time"> {time} </div>{" "}
     </CardStyle>
   );
 };
@@ -43,39 +43,80 @@ const CardStyle = styled.div`
   }
 `;
 
+const standardEight = [
+  {
+    avatar: "Avatar woo",
+    name: "Fido",
+    breed: "Mini Poodle",
+    trainer: "Joan White",
+    time: "7:00pm"
+  },
+  {
+    avatar: "Avatar2",
+    name: "Rolf",
+    breed: "Corgie",
+    trainer: "Brenda Smith",
+    time: "7:10pm"
+  }
+];
+
+const standardTwenty = [
+  {
+    avatar: "Kristin",
+    name: "Frejka",
+    breed: "Icelandic Sheepdog",
+    trainer: "KH",
+    time: "7:20pm"
+  },
+  {
+    avatar: "Peter",
+    name: "Donk",
+    breed: "Poodle",
+    trainer: "PS",
+    time: "7:30pm"
+  }
+];
+
+const standardTwentyFour = [
+  {
+    avatar: "Derek",
+    name: "Rusty",
+    breed: "Golden",
+    trainer: "DC",
+    time: "7:40pm"
+  },
+  {
+    avatar: "Jack",
+    name: "Ponga",
+    breed: "Cool",
+    trainer: "JW",
+    time: "7:50pm"
+  }
+];
+
 const Events = () => {
   return (
     <Style>
-      <h1>Events</h1>
-      <h2>Standard</h2>
+      <h1> Events </h1> <h2> Standard </h2>
       <div>
         <ul>
           <li>
-            8"
-            <Card
-              avatar="Avatar woo"
-              name="Fido"
-              breed="Mini Poodle"
-              trainer="Joan White"
-              time="7:00pm"
-            />
-            <Card
-              name="Rolf"
-              breed="Corgie"
-              trainer="Brenda Smith"
-            />
-            <Card name="Pixie" />
-            <Card name="Brittney" />
+            8 "
+            {standardEight.map(dog => (
+              <Card {...dog} />
+            ))}
           </li>
           <li>
-            20"
-            <Card name="Rex" />
-            <Card name="Masterson" />
-            <Card name="Val" />
+            20 "
+            {standardTwenty.map(dog => (
+              <Card {...dog} />
+            ))}
           </li>
           <li>
-            24"
-            <Card name="Thor dog of Thunder" />
+            24 "
+            {standardTwentyFour.map(dog => (
+              <Card {...dog} />
+            ))}
           </li>
         </ul>
       </div>
