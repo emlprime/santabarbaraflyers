@@ -12,15 +12,17 @@ function Home() {
     <Router>
       <Container>
         <Col1>
-          <Link to="/home">
-            <p className="">Home</p>
-          </Link>
-          <Link to="/events">
-            <p className="">Events</p>
-          </Link>
-          <Link to="/standings">
-            <p className="">Standings</p>
-          </Link>
+          <Style>
+            <Link to="/home">
+              <h2 className="">Home</h2>
+            </Link>
+            <Link to="/events">
+              <h2 className="">Events</h2>
+            </Link>
+            <Link to="/standings">
+              <h2 className="">Standings</h2>
+            </Link>
+          </Style>
         </Col1>
 
         <Col2>
@@ -34,6 +36,17 @@ function Home() {
   );
 }
 
+const Style = styled.section`
+  a {
+    text-decoration: none;
+    color: black;
+  }
+  ,
+  a:hover {
+    color: gray;
+  }
+`;
+
 const Container = styled.div`
   display: flex;
   flex-direction: row;
@@ -46,7 +59,7 @@ const Col1 = styled.div`
 `;
 
 const Col2 = styled.div`
-  margin: 5% 14% 0 0;
+  margin: 8% 14% 0 0;
   flex-grow: 10;
 `;
 
