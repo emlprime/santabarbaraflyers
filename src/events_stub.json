@@ -1,59 +1,236 @@
 {
-  "8": [
-    {
-      "avatar": "Avatar woo",
-      "name": "Fido",
-      "breed": "Mini Poodle",
-      "trainer": "Joan White",
-      "time": "7:00pm"
+  "Masters": {
+    "Jumpers": {
+      "dogs": {
+        "8": [
+          {
+            "avatar": "Avatar woo",
+            "name": "Fido",
+            "breed": "Mini Poodle",
+            "trainer": "Joan White",
+            "time": "7:00pm"
+          }
+        ],
+        "20": [
+          {
+            "avatar": "Kristin",
+            "name": "Frejka",
+            "breed": "Icelandic Sheepdog",
+            "trainer": "KH",
+            "time": "7:20pm"
+          },
+          {
+            "avatar": "Peter",
+            "name": "Donk",
+            "breed": "Poodle",
+            "trainer": "PS",
+            "time": "7:30pm"
+          },
+          {
+            "avatar": "Tim",
+            "name": "Caboose",
+            "breed": "Aussie",
+            "trainer": "TB",
+            "time": "1:45pm"
+          }
+        ],
+        "24": [
+          {
+            "avatar": "Derek",
+            "name": "Rusty",
+            "breed": "Golden",
+            "trainer": "DC",
+            "time": "7:40pm"
+          }
+        ],
+        "10": [
+          {
+            "avatar": "Elaina",
+            "name": "Thor",
+            "breed": "lab",
+            "trainer": "ER",
+            "time": "8:00"
+          }
+        ]
+      }
     },
-    {
-      "avatar": "Avatar2",
-      "name": "Rolf",
-      "breed": "Corgie",
-      "trainer": "Brenda Smith",
-      "time": "7:10pm"
+    "Gamblers": {
+      "dogs": {
+        "8": [
+          {
+            "avatar": "Master woo",
+            "name": "Fido",
+            "breed": "Mini Poodle",
+            "trainer": "Joan White",
+            "time": "7:00pm"
+          },
+          {
+            "avatar": "Avatar2",
+            "name": "Rolf",
+            "breed": "Corgie",
+            "trainer": "Brenda Smith",
+            "time": "7:10pm"
+          }
+        ],
+        "20": [
+          {
+            "avatar": "Kristin",
+            "name": "Frejka",
+            "breed": "Icelandic Sheepdog",
+            "trainer": "KH",
+            "time": "7:20pm"
+          },
+          {
+            "avatar": "Peter",
+            "name": "Donk",
+            "breed": "Poodle",
+            "trainer": "PS",
+            "time": "7:30pm"
+          }
+        ],
+        "24": [
+          {
+            "avatar": "Derek",
+            "name": "Rusty",
+            "breed": "Golden",
+            "trainer": "DC",
+            "time": "7:40pm"
+          },
+          {
+            "avatar": "Jack",
+            "name": "Ponga",
+            "breed": "Cool",
+            "trainer": "JW",
+            "time": "7:50pm"
+          }
+        ],
+        "10": [
+          {
+            "avatar": "Elaina",
+            "name": "Thor",
+            "breed": "lab",
+            "trainer": "ER",
+            "time": "8:00"
+          }
+        ]
+      }
     }
-  ],
-  "20": [
-    {
-      "avatar": "Kristin",
-      "name": "Frejka",
-      "breed": "Icelandic Sheepdog",
-      "trainer": "KH",
-      "time": "7:20pm"
+  },
+  "Novice": {
+    "Jumpers": {
+      "dogs": {
+        "8": [
+          {
+            "avatar": "Avatar woo",
+            "name": "Fido",
+            "breed": "Mini Poodle",
+            "trainer": "Joan White",
+            "time": "7:00pm"
+          }
+        ],
+        "20": [
+          {
+            "avatar": "Kristin",
+            "name": "Frejka",
+            "breed": "Icelandic Sheepdog",
+            "trainer": "KH",
+            "time": "7:20pm"
+          },
+          {
+            "avatar": "Peter",
+            "name": "Donk",
+            "breed": "Poodle",
+            "trainer": "PS",
+            "time": "7:30pm"
+          },
+          {
+            "avatar": "Tim",
+            "name": "Caboose",
+            "breed": "Aussie",
+            "trainer": "TB",
+            "time": "1:45pm"
+          }
+        ],
+        "24": [
+          {
+            "avatar": "Derek",
+            "name": "Rusty",
+            "breed": "Golden",
+            "trainer": "DC",
+            "time": "7:40pm"
+          }
+        ],
+        "10": [
+          {
+            "avatar": "Elaina",
+            "name": "Thor",
+            "breed": "lab",
+            "trainer": "ER",
+            "time": "8:00"
+          }
+        ]
+      }
     },
-    {
-      "avatar": "Peter",
-      "name": "Donk",
-      "breed": "Poodle",
-      "trainer": "PS",
-      "time": "7:30pm"
+    "Gamblers": {
+      "dogs": {
+        "8": [
+          {
+            "avatar": "Avatar woo",
+            "name": "Fido",
+            "breed": "Mini Poodle",
+            "trainer": "Joan White",
+            "time": "7:00pm"
+          },
+          {
+            "avatar": "Avatar2",
+            "name": "Rolf",
+            "breed": "Corgie",
+            "trainer": "Brenda Smith",
+            "time": "7:10pm"
+          }
+        ],
+        "20": [
+          {
+            "avatar": "Kristin",
+            "name": "Frejka",
+            "breed": "Icelandic Sheepdog",
+            "trainer": "KH",
+            "time": "7:20pm"
+          },
+          {
+            "avatar": "Peter",
+            "name": "Donk",
+            "breed": "Poodle",
+            "trainer": "PS",
+            "time": "7:30pm"
+          }
+        ],
+        "24": [
+          {
+            "avatar": "Derek",
+            "name": "Rusty",
+            "breed": "Golden",
+            "trainer": "DC",
+            "time": "7:40pm"
+          },
+          {
+            "avatar": "Jack",
+            "name": "Ponga",
+            "breed": "Cool",
+            "trainer": "JW",
+            "time": "7:50pm"
+          }
+        ],
+        "10": [
+          {
+            "avatar": "Elaina",
+            "name": "Thor",
+            "breed": "lab",
+            "trainer": "ER",
+            "time": "8:00"
+          }
+        ]
+      }
     }
-  ],
-  "24": [
-    {
-      "avatar": "Derek",
-      "name": "Rusty",
-      "breed": "Golden",
-      "trainer": "DC",
-      "time": "7:40pm"
-    },
-    {
-      "avatar": "Jack",
-      "name": "Ponga",
-      "breed": "Cool",
-      "trainer": "JW",
-      "time": "7:50pm"
-    }
-  ],
-  "10": [
-    {
-      "avatar": "Elaina",
-      "name": "Thor",
-      "breed": "lab",
-      "trainer": "ER",
-      "time": "8:00"
-    }
-  ]
+  }
 }

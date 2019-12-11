@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import dogs from "../events_stub.json";
+import data from "../events_stub.json";
 import Card from "../atoms/Card";
 import SelectFilter from "../atoms/SelectFilter";
 
@@ -8,8 +8,15 @@ const jumpHeights = ["All", "8", "10", "20", "24"];
 
 const Events = () => {
   const [currentHeight, setCurrentHeight] = useState();
+  const [currentRing, setCurrentRing] = useState();
+  const [currentEvent, setCurrentEvent] = useState(
+    "Jumpers"
+  );
+  const [currentLevel, setCurrentLevel] = useState(
+    "Masters"
+  );
   const rings = ["Ring 1", "Ring 2"];
-  const levels = ["Masters", "Performance"];
+  const levels = ["Masters", "Novice"];
   const events = ["Jumpers", "Gamblers"];
   const filteredJumpHeights =
     currentHeight && currentHeight !== "All"
@@ -18,8 +25,15 @@ const Events = () => {
         })
       : jumpHeights;
 
-  console.log(filteredJumpHeights);
-  console.log(currentHeight);
+  // const filteredRings =
+  //   currentRing && currentRing !== "All"
+  //     ? rings.filter(ring => {
+  //       return ring === currentRing;
+  //     }) : rings;
+
+  console.log(data[currentLevel][currentEvent]);
+  console.log(currentEvent);
+  const { dogs } = data[currentLevel][currentEvent];
 
   return (
     <Style>
@@ -29,11 +43,16 @@ const Events = () => {
           <SelectFilter filters={rings} />
         </li>
         <li>
-          {" "}
-          <SelectFilter filters={levels} />
+          <SelectFilter
+            filters={levels}
+            onChange={e => setCurrentLevel(e.target.value)}
+          />
         </li>
         <li>
-          <SelectFilter filters={events} />
+          <SelectFilter
+            filters={events}
+            onChange={e => setCurrentEvent(e.target.value)}
+          />
         </li>
         <li>
           <SelectFilter
