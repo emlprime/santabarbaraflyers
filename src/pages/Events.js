@@ -5,6 +5,19 @@ import Card from "../atoms/Card";
 import SelectFilter from "../atoms/SelectFilter";
 
 const jumpHeights = ["All", "8", "10", "20", "24"];
+const filterDogs = (currentName, dogs) => {
+  console.log(currentName);
+  return currentName !== ""
+    ? dogs.filter(dog => {
+        console.log(
+          dog.name,
+          currentName,
+          dog.name === currentName
+        );
+        return dog.name === currentName;
+      })
+    : dogs;
+};
 
 const Events = () => {
   const [currentHeight, setCurrentHeight] = useState();
@@ -15,6 +28,7 @@ const Events = () => {
   const [currentLevel, setCurrentLevel] = useState(
     "Masters"
   );
+  const [currentName, setCurrentName] = useState("");
   const rings = ["Ring 1", "Ring 2"];
   const levels = ["Masters", "Novice"];
   const events = ["Jumpers", "Gamblers"];
@@ -24,7 +38,7 @@ const Events = () => {
           return height === currentHeight;
         })
       : jumpHeights;
-
+  console.log(currentName);
   // const filteredRings =
   //   currentRing && currentRing !== "All"
   //     ? rings.filter(ring => {
@@ -32,7 +46,7 @@ const Events = () => {
   //     }) : rings;
 
   console.log(data[currentLevel][currentEvent]);
-  console.log(currentEvent);
+  console.log(currentName);
   const { dogs } = data[currentLevel][currentEvent];
 
   return (
@@ -64,7 +78,12 @@ const Events = () => {
       <input
         type="text"
         placeholder="insert magnifying glass here"
+        onChange={e => setCurrentName(e.target.value)}
+        value={currentName}
       />
+      <button onClick={e => console.log("click")}>
+        push me
+      </button>
       <h2> Standard </h2>
       <div>
         <ul>
@@ -72,7 +91,10 @@ const Events = () => {
             <li key={height}>
               {height}"
               {dogs[height] &&
-                dogs[height].map(dog => <Card {...dog} />)}
+                filterDogs(
+                  currentName,
+                  dogs[height]
+                ).map(dog => <Card {...dog} />)}
             </li>
           ))}
         </ul>
