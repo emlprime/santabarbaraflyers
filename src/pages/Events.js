@@ -9,8 +9,14 @@ const jumpHeights = [8, 10, 20, 24];
 const Events = () => {
   const rings = ["Ring 1", "Ring 2"];
   const levels = ["Masters", "Performance"];
-  const height = ["20", "16"];
+  const heights = ["20", "16"];
   const events = ["Jumpers", "Gamblers"];
+  const currentHeight = 8;
+  const filteredJumpHeights = jumpHeights.filter(
+    height => height === currentHeight
+  );
+
+  console.log(filteredJumpHeights);
 
   return (
     <Style>
@@ -27,14 +33,18 @@ const Events = () => {
           <SelectFilter filters={events} />
         </li>
         <li>
-          <SelectFilter filters={height} />
+          <SelectFilter filters={heights} />
         </li>
       </ul>
+      <input
+        type="text"
+        placeholder="insert magnifying glass here"
+      />
       <h2> Standard </h2>
       <div>
         <ul>
-          {jumpHeights.map(height => (
-            <li>
+          {filteredJumpHeights.map(height => (
+            <li key={height}>
               {height}"
               {dogs[height] &&
                 dogs[height].map(dog => <Card {...dog} />)}

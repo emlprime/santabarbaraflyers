@@ -27,7 +27,7 @@ function Home() {
 
         <Col2>
           <Route exact path="/events" component={Events} />
-          {/* <Route exact path="/" component={} /> */}
+          <Route exact path="/" component={Events} />
           {/* <Route exact path="/standings" component={} />
           <Route exact path="/hone" component={} /> */}
         </Col2>
