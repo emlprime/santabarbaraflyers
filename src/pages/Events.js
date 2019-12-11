@@ -9,12 +9,7 @@ const filterDogs = (currentName, dogs) => {
   console.log(currentName);
   return currentName !== ""
     ? dogs.filter(dog => {
-        console.log(
-          dog.name,
-          currentName,
-          dog.name === currentName
-        );
-        return dog.name === currentName;
+        return dog.name.match(new RegExp(currentName, "i"));
       })
     : dogs;
 };
