@@ -3,9 +3,9 @@ import SvgLogo from "../../Icons/Logo";
 import Hoop from "../../Icons/Hoop";
 import { MorphReplace } from "react-svg-morph";
 
-const SelectFilter = ({ filters }) => {
+const SelectFilter = ({ filters, onChange }) => {
   return (
-    <select>
+    <select onChange={onChange}>
       {filters.map(filter => (
         <option>{filter}</option>
       ))}

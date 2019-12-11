@@ -1,22 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import dogs from "../events_stub.json";
 import Card from "../atoms/Card";
 import SelectFilter from "../atoms/SelectFilter";
 
-const jumpHeights = [8, 10, 20, 24];
+const jumpHeights = ["All", "8", "10", "20", "24"];
 
 const Events = () => {
+  const [currentHeight, setCurrentHeight] = useState();
   const rings = ["Ring 1", "Ring 2"];
   const levels = ["Masters", "Performance"];
-  const heights = ["20", "16"];
   const events = ["Jumpers", "Gamblers"];
-  const currentHeight = 8;
-  const filteredJumpHeights = jumpHeights.filter(
-    height => height === currentHeight
-  );
+  const filteredJumpHeights =
+    currentHeight && currentHeight !== "All"
+      ? jumpHeights.filter(height => {
+          return height === currentHeight;
+        })
+      : jumpHeights;
 
   console.log(filteredJumpHeights);
+  console.log(currentHeight);
 
   return (
     <Style>
@@ -33,7 +36,10 @@ const Events = () => {
           <SelectFilter filters={events} />
         </li>
         <li>
-          <SelectFilter filters={heights} />
+          <SelectFilter
+            filters={jumpHeights}
+            onChange={e => setCurrentHeight(e.target.value)}
+          />
         </li>
       </ul>
       <input
