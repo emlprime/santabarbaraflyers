@@ -9,7 +9,14 @@ const filterDogs = (currentName, dogs) => {
   console.log(currentName);
   return currentName !== ""
     ? dogs.filter(dog => {
-        return dog.name.match(new RegExp(currentName, "i"));
+        return (
+          // is there a better way to do this?
+          dog.name.match(new RegExp(currentName, "i")) ||
+          dog.trainer.match(new RegExp(currentName, "i")) ||
+          dog.breed.match(new RegExp(currentName, "i")) ||
+          dog.avatar.match(new RegExp(currentName, "i")) ||
+          dog.time.match(new RegExp(currentName, "i"))
+        );
       })
     : dogs;
 };
@@ -24,6 +31,8 @@ const Events = () => {
     "Masters"
   );
   const [currentName, setCurrentName] = useState("");
+  // const [filterDogs, setfilterDogs] = useState([]);
+
   const rings = ["Ring 1", "Ring 2"];
   const levels = ["Masters", "Novice"];
   const events = ["Jumpers", "Gamblers"];
@@ -84,7 +93,12 @@ const Events = () => {
         <ul>
           {filteredJumpHeights.map(height => (
             <li key={height}>
-              {height}"
+              {dogs[height] &&
+              filterDogs(currentName, dogs[height]).length >
+                0
+                ? height + '"'
+                : ""}
+
               {dogs[height] &&
                 filterDogs(
                   currentName,
