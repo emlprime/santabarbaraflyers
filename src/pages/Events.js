@@ -31,7 +31,6 @@ const Events = () => {
     "Masters"
   );
   const [currentName, setCurrentName] = useState("");
-  // const [filterDogs, setfilterDogs] = useState([]);
 
   const rings = ["Ring 1", "Ring 2"];
   const levels = ["Masters", "Novice"];
