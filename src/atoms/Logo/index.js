@@ -1,7 +1,8 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import SvgLogo from "../../Icons/Logo";
 import Hoop from "../../Icons/Hoop";
-import {MorphReplace} from "react-svg-morph";
+import { MorphReplace } from "react-svg-morph";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const Logo = () => {
   const [checked, setChecked] = useState(false);
@@ -9,7 +10,11 @@ const Logo = () => {
   return (
     <div title="Santa Barbara Flyers Dog Sports">
       <MorphReplace width={56} height={56}>
-        {checked ? <SvgLogo key="final" /> : <Hoop key="initial" />}
+        {checked ? (
+          <SvgLogo key="final" />
+        ) : (
+          <Hoop key="initial" />
+        )}
       </MorphReplace>
     </div>
   );

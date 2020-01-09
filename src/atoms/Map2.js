@@ -6,11 +6,9 @@ import React, {
 } from "react";
 import styled from "styled-components";
 import DogPin from "./DogPin3.png";
-import { Container, Row, Col } from "react-bootstrap";
 
-function Map({ options, onMount, className }) {
+function Map2({ options, onMount, className }) {
   const ref = useRef();
-
   const [userAddress, setUserAddress] = useState("");
   const SBbFlyerAddress =
     "223 E de La Guerra, Santa Barbara, CA, 93101";
@@ -38,9 +36,9 @@ function Map({ options, onMount, className }) {
             map.setCenter(results[0].geometry.location);
             const marker = new window.google.maps.Marker({
               map: map,
-              position: results[0].geometry.location
-              //   icon: icon,
-              //   animation: window.google.maps.Animation.DROP
+              position: results[0].geometry.location,
+              icon: icon,
+              animation: window.google.maps.Animation.DROP
             });
             marker.setMap(map);
           }
@@ -67,45 +65,6 @@ function Map({ options, onMount, className }) {
           ) {
             const newAddress = results[0].formatted_address;
             setUserAddress(newAddress);
-
-            // directions
-            const directionsRenderer = new window.google.maps.DirectionsRenderer();
-            const directionsService = new window.google.maps.DirectionsService();
-
-            directionsRenderer.setMap(map);
-            directionsRenderer.setPanel(
-              document.getElementById("right-panel")
-            );
-            const control = document.getElementById(
-              "floating-panel"
-            );
-
-            const start = newAddress;
-            const end = document.getElementById(
-              "destination-input"
-            ).value;
-
-            console.log("start" + start);
-            console.log("end" + end);
-            directionsService.route(
-              {
-                origin: start,
-                destination: end,
-                travelMode: "DRIVING"
-              },
-              function(response, status) {
-                if (status === "OK") {
-                  directionsRenderer.setDirections(
-                    response
-                  );
-                } else {
-                  window.alert(
-                    "Directions request failed due to " +
-                      status
-                  );
-                }
-              }
-            );
           });
         });
       }
@@ -122,57 +81,80 @@ function Map({ options, onMount, className }) {
         script.removeEventListener(`load`, onLoad);
     } else onLoad();
 
+    //start directions
+    const directionsRenderer = new window.google.maps.DirectionsRenderer();
+    const directionsService = new window.google.maps.DirectionsService();
+    directionsRenderer.setPanel(
+      document.getElementById("right-panel")
+    );
+
+    const directions = function onSubmit(
+      directionsService,
+      directionsRenderer
+    ) {
+      var start = document.getElementById("origin-input")
+        .value;
+      var end = document.getElementById("destination-input")
+        .value;
+      directionsService.route(
+        {
+          origin: start,
+          destination: end,
+          travelMode: "DRIVING"
+        },
+        function(response, status) {
+          if (status === "OK") {
+            directionsRenderer.setDirections(response);
+          } else {
+            window.alert(
+              "Directions request failed due to " + status
+            );
+          }
+        }
+      );
+    };
+
     //end directions
   }, [onMount, options]);
 
-  //start directions
-  function help() {
-    console.log("im fucked");
-  }
-
   return (
     <Style>
-      <Container>
-        <Row>
-          <Col md={8}>
-            <input
-              className="controls"
-              id="origin-input"
-              type="text"
-              value={userAddress}
-              onChange={e => setUserAddress(e.target.value)}
-            />
-            <input
-              id="destination-input"
-              className="controls"
-              type="text"
-              value={SBbFlyerAddress}
-            ></input>
+      <div>
+        <div>
+          <input
+            className="controls"
+            id="origin-input"
+            type="text"
+            value={userAddress}
+            onChange={e => setUserAddress(e.target.value)}
+          />
+          <input
+            id="destination-input"
+            className="controls"
+            type="text"
+            value={SBbFlyerAddress}
+          ></input>
 
-            <button id="submit" onClick={help}>
-              Get Directions
-            </button>
-            {/* <button id="submit">Get Directions</button> */}
-            <div
-              id="map"
-              style={{
-                height: `60vh`,
-                margin: `1% 0`,
-                borderRadius: `0.5%`
-              }}
-              {...{ ref, className }}
-            ></div>
-          </Col>
-          <Col>
-            <div id="right-panel"></div>
-          </Col>
-        </Row>
-      </Container>
+          {/* <button id="submit" onClick={directions}>
+            Get Directions
+          </button> */}
+          <button id="submit">Get Directions</button>
+        </div>
+        <div id="right-panel"></div>
+        <div
+          id="map"
+          style={{
+            height: `60vh`,
+            margin: `1% 0`,
+            borderRadius: `0.5%`
+          }}
+          {...{ ref, className }}
+        ></div>
+      </div>
     </Style>
   );
 }
-export default React.memo(Map);
-
+export default React.memo(Map2);
 Map.defaultProps = {
   options: {
     zoom: 5,
@@ -205,7 +187,7 @@ const Style = styled.section`
     font-weight: 300;
     text-overflow: ellipsis;
     margin-left: 33%;
-    margin-top: 2%;
+    margin-top: 1%;
     position: absolute;
     z-index: 1;
     border-color: #fff;
@@ -223,7 +205,7 @@ const Style = styled.section`
 
   #origin-input {
     position: absolute;
-    margin-top: 2%;
+    margin-top: 1%;
     z-index: 1;
     margin-left: 1%;
     padding: 0 0.5%;
@@ -233,18 +215,11 @@ const Style = styled.section`
 
   #destination-input {
     position: absolute;
-    margin-top: 2%;
+    margin-top: 1%;
     z-index: 1;
     margin-left: 17%;
     padding: 0 0.5%;
     width: 15%;
     border-color: #4d90fe;
-  }
-  #right-panel {
-    display: block;
-    height: 60vh;
-    overflow: scroll;
-    font-family: Roboto;
-    font-size: 12px;
   }
 `;
