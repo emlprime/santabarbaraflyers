@@ -19,35 +19,102 @@ function Map({ options, onMount, className }) {
 
   console.log(userAddress);
 
+  const geocoder = new window.google.maps.Geocoder();
+  let directionsRenderer = new window.google.maps.DirectionsRenderer();
+  let directionsService = new window.google.maps.DirectionsService();
+
+  let map = new window.google.maps.Map(options);
+
+  //directions
+  const directions = () => {
+    map = new window.google.maps.Map(
+      document.getElementById("map"),
+      {
+        disableDefaultUI: true
+      }
+    );
+    document.getElementById("right-panel").innerHTML = "";
+    directionsRenderer.setMap(map);
+    directionsRenderer.setPanel(
+      document.getElementById("right-panel")
+    );
+    console.log("getting new directions");
+    const start = document.getElementById("origin-input")
+      .value;
+    const end = document.getElementById("destination-input")
+      .value;
+    directionsService.route(
+      {
+        origin: start,
+        destination: end,
+        travelMode: "DRIVING"
+      },
+      function(response, status) {
+        if (status === "OK") {
+          directionsRenderer.setDirections(response);
+          console.log(response);
+        } else {
+          window.alert(
+            "Directions request failed due to " + status
+          );
+        }
+      }
+    );
+  };
+
+  //autocomplete
+  // Create the search box and link it to the UI element.
+  const input = document.getElementById("origin-input");
+
+  const searchBox = new window.google.maps.places.SearchBox(
+    input
+  );
+  // Bias the SearchBox results towards current map's viewport.
+  map.addListener("bounds_changed", function() {
+    searchBox.setBounds(map.getBounds());
+  });
+
+  // Listen for the event fired when the user selects a prediction and retrieve
+  // more details for that place.
+  searchBox.addListener("places_changed", function() {
+    const places = searchBox.getPlaces();
+
+    if (places.length == 0) {
+      return;
+    }
+
+    // For each place, get the icon, name and location.
+    const bounds = new window.google.maps.LatLngBounds();
+    places.forEach(function(place) {
+      if (!place.geometry) {
+        console.log("Returned place contains no geometry");
+        return;
+      }
+      const icon = {
+        url: place.icon,
+        size: new window.google.maps.Size(71, 71),
+        origin: new window.google.maps.Point(0, 0),
+        anchor: new window.google.maps.Point(17, 34),
+        scaledSize: new window.google.maps.Size(25, 25)
+      };
+      if (place.geometry.viewport) {
+        // Only geocodes have viewport.
+        bounds.union(place.geometry.viewport);
+      } else {
+        bounds.extend(place.geometry.location);
+      }
+    });
+    map.fitBounds(bounds);
+  });
+
   useEffect(() => {
     const onLoad = () => {
-      const map = new window.google.maps.Map(
+      map = new window.google.maps.Map(
         ref.current,
         options
       );
 
       if (typeof onMount === `function`) onMount(map);
-
-      //geocode to drop pin
-      const geocoder = new window.google.maps.Geocoder();
-
-      const icon = DogPin;
-      geocoder.geocode(
-        { address: SBbFlyerAddress },
-        function(results, status) {
-          if (status === "OK") {
-            console.log(results);
-            map.setCenter(results[0].geometry.location);
-            const marker = new window.google.maps.Marker({
-              map: map,
-              position: results[0].geometry.location
-              //   icon: icon,
-              //   animation: window.google.maps.Animation.DROP
-            });
-            marker.setMap(map);
-          }
-        }
-      );
 
       // get user location
 
@@ -70,102 +137,10 @@ function Map({ options, onMount, className }) {
             const newAddress = results[0].formatted_address;
             setUserAddress(newAddress);
 
-            // directions
-            const directions = () => {
-              const directionsRenderer = new window.google.maps.DirectionsRenderer();
-              const directionsService = new window.google.maps.DirectionsService();
+            // call directions
 
-              directionsRenderer.setMap(map);
-              directionsRenderer.setPanel(
-                document.getElementById("right-panel")
-              );
-              const control = document.getElementById(
-                "right-panel"
-              );
-
-              const start = document.getElementById(
-                "origin-input"
-              ).value;
-              const end = document.getElementById(
-                "destination-input"
-              ).value;
-
-              console.log("start" + start);
-              console.log("end" + end);
-              directionsService.route(
-                {
-                  origin: start,
-                  destination: end,
-                  travelMode: "DRIVING"
-                },
-                function(response, status) {
-                  if (status === "OK") {
-                    directionsRenderer.setDirections(
-                      response
-                    );
-                  } else {
-                    window.alert(
-                      "Directions request failed due to " +
-                        status
-                    );
-                  }
-                }
-              );
-            };
             directions();
           });
-        });
-
-        //autocomplete
-        // Create the search box and link it to the UI element.
-        const input = document.getElementById(
-          "origin-input"
-        );
-
-        const searchBox = new window.google.maps.places.SearchBox(
-          input
-        );
-        // Bias the SearchBox results towards current map's viewport.
-        map.addListener("bounds_changed", function() {
-          searchBox.setBounds(map.getBounds());
-        });
-
-        // Listen for the event fired when the user selects a prediction and retrieve
-        // more details for that place.
-        searchBox.addListener("places_changed", function() {
-          const places = searchBox.getPlaces();
-
-          if (places.length == 0) {
-            return;
-          }
-
-          // For each place, get the icon, name and location.
-          const bounds = new window.google.maps.LatLngBounds();
-          places.forEach(function(place) {
-            if (!place.geometry) {
-              console.log(
-                "Returned place contains no geometry"
-              );
-              return;
-            }
-            const icon = {
-              url: place.icon,
-              size: new window.google.maps.Size(71, 71),
-              origin: new window.google.maps.Point(0, 0),
-              anchor: new window.google.maps.Point(17, 34),
-              scaledSize: new window.google.maps.Size(
-                25,
-                25
-              )
-            };
-            if (place.geometry.viewport) {
-              // Only geocodes have viewport.
-              bounds.union(place.geometry.viewport);
-            } else {
-              bounds.extend(place.geometry.location);
-            }
-          });
-          map.fitBounds(bounds);
         });
         //end
       }
@@ -204,8 +179,10 @@ function Map({ options, onMount, className }) {
               value={SBbFlyerAddress}
             ></input>
 
-            <button id="submit">Get Directions</button>
-            {/* <button onClick={} id="submit">Get Directions</button> */}
+            {/* <button id="submit">Get Directions</button> */}
+            <button onClick={directions} id="submit">
+              Get Directions
+            </button>
             <div
               id="map"
               style={{
@@ -328,5 +305,6 @@ const Style = styled.section`
     overflow: scroll;
     font-family: Roboto;
     font-size: 12px;
+    z-index: 5;
   }
 `;
