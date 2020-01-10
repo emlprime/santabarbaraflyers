@@ -7,11 +7,13 @@ import React, {
 import styled from "styled-components";
 import DogPin from "./DogPin3.png";
 import { Container, Row, Col } from "react-bootstrap";
+import { isEqual, omit, functions } from "lodash";
 
 function Map({ options, onMount, className }) {
   const ref = useRef();
 
   const [userAddress, setUserAddress] = useState("");
+
   const SBbFlyerAddress =
     "223 E de La Guerra, Santa Barbara, CA, 93101";
 
@@ -69,45 +71,103 @@ function Map({ options, onMount, className }) {
             setUserAddress(newAddress);
 
             // directions
-            const directionsRenderer = new window.google.maps.DirectionsRenderer();
-            const directionsService = new window.google.maps.DirectionsService();
+            const directions = () => {
+              const directionsRenderer = new window.google.maps.DirectionsRenderer();
+              const directionsService = new window.google.maps.DirectionsService();
 
-            directionsRenderer.setMap(map);
-            directionsRenderer.setPanel(
-              document.getElementById("right-panel")
-            );
-            const control = document.getElementById(
-              "floating-panel"
-            );
+              directionsRenderer.setMap(map);
+              directionsRenderer.setPanel(
+                document.getElementById("right-panel")
+              );
+              const control = document.getElementById(
+                "right-panel"
+              );
 
-            const start = newAddress;
-            const end = document.getElementById(
-              "destination-input"
-            ).value;
+              const start = document.getElementById(
+                "origin-input"
+              ).value;
+              const end = document.getElementById(
+                "destination-input"
+              ).value;
 
-            console.log("start" + start);
-            console.log("end" + end);
-            directionsService.route(
-              {
-                origin: start,
-                destination: end,
-                travelMode: "DRIVING"
-              },
-              function(response, status) {
-                if (status === "OK") {
-                  directionsRenderer.setDirections(
-                    response
-                  );
-                } else {
-                  window.alert(
-                    "Directions request failed due to " +
-                      status
-                  );
+              console.log("start" + start);
+              console.log("end" + end);
+              directionsService.route(
+                {
+                  origin: start,
+                  destination: end,
+                  travelMode: "DRIVING"
+                },
+                function(response, status) {
+                  if (status === "OK") {
+                    directionsRenderer.setDirections(
+                      response
+                    );
+                  } else {
+                    window.alert(
+                      "Directions request failed due to " +
+                        status
+                    );
+                  }
                 }
-              }
-            );
+              );
+            };
+            directions();
           });
         });
+
+        //autocomplete
+        // Create the search box and link it to the UI element.
+        const input = document.getElementById(
+          "origin-input"
+        );
+
+        const searchBox = new window.google.maps.places.SearchBox(
+          input
+        );
+        // Bias the SearchBox results towards current map's viewport.
+        map.addListener("bounds_changed", function() {
+          searchBox.setBounds(map.getBounds());
+        });
+
+        // Listen for the event fired when the user selects a prediction and retrieve
+        // more details for that place.
+        searchBox.addListener("places_changed", function() {
+          const places = searchBox.getPlaces();
+
+          if (places.length == 0) {
+            return;
+          }
+
+          // For each place, get the icon, name and location.
+          const bounds = new window.google.maps.LatLngBounds();
+          places.forEach(function(place) {
+            if (!place.geometry) {
+              console.log(
+                "Returned place contains no geometry"
+              );
+              return;
+            }
+            const icon = {
+              url: place.icon,
+              size: new window.google.maps.Size(71, 71),
+              origin: new window.google.maps.Point(0, 0),
+              anchor: new window.google.maps.Point(17, 34),
+              scaledSize: new window.google.maps.Size(
+                25,
+                25
+              )
+            };
+            if (place.geometry.viewport) {
+              // Only geocodes have viewport.
+              bounds.union(place.geometry.viewport);
+            } else {
+              bounds.extend(place.geometry.location);
+            }
+          });
+          map.fitBounds(bounds);
+        });
+        //end
       }
     };
 
@@ -115,7 +175,7 @@ function Map({ options, onMount, className }) {
     if (!window.google) {
       const script = document.createElement(`script`);
       script.src =
-        "https://maps.googleapis.com/maps/api/js?key=AIzaSyCwpDhxfo8aygIX4ZrfdC4NULGK8KKteVc";
+        "https://maps.googleapis.com/maps/api/js?key=AIzaSyCwpDhxfo8aygIX4ZrfdC4NULGK8KKteVc&libraries=places";
       document.head.append(script);
       script.addEventListener(`load`, onLoad);
       return () =>
@@ -124,11 +184,6 @@ function Map({ options, onMount, className }) {
 
     //end directions
   }, [onMount, options]);
-
-  //start directions
-  function help() {
-    console.log("im fucked");
-  }
 
   return (
     <Style>
@@ -149,10 +204,8 @@ function Map({ options, onMount, className }) {
               value={SBbFlyerAddress}
             ></input>
 
-            <button id="submit" onClick={help}>
-              Get Directions
-            </button>
-            {/* <button id="submit">Get Directions</button> */}
+            <button id="submit">Get Directions</button>
+            {/* <button onClick={} id="submit">Get Directions</button> */}
             <div
               id="map"
               style={{
@@ -162,6 +215,16 @@ function Map({ options, onMount, className }) {
               }}
               {...{ ref, className }}
             ></div>
+            <div id="infowindow-content">
+              <img
+                src=""
+                width="16"
+                height="16"
+                id="place-icon"
+              />
+              <span id="place-name" class="title"></span>
+              <span id="place-address"></span>
+            </div>
           </Col>
           <Col>
             <div id="right-panel"></div>
@@ -171,7 +234,25 @@ function Map({ options, onMount, className }) {
     </Style>
   );
 }
-export default React.memo(Map);
+const shouldUpdate = (prevProps, nextProps) => {
+  delete prevProps.options.mapTypeId;
+  const [prevFuncs, nextFuncs] = [
+    functions(prevProps),
+    functions(nextProps)
+  ];
+  return (
+    isEqual(
+      omit(prevProps, prevFuncs),
+      omit(nextProps, nextFuncs)
+    ) &&
+    prevFuncs.every(
+      fn =>
+        prevProps[fn].toString() ===
+        nextProps[fn].toString()
+    )
+  );
+};
+export default React.memo(Map, shouldUpdate);
 
 Map.defaultProps = {
   options: {
@@ -201,11 +282,11 @@ const Style = styled.section`
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
     background-color: #4d90fe;
     font-family: Roboto;
-    font-size: 15px;
+    font-size: 12px;
     font-weight: 300;
     text-overflow: ellipsis;
-    margin-left: 33%;
-    margin-top: 2%;
+    margin-left: 1%;
+    margin-top: 16%;
     position: absolute;
     z-index: 1;
     border-color: #fff;
@@ -216,7 +297,7 @@ const Style = styled.section`
   #destination-input {
     background-color: #fff;
     font-family: Roboto;
-    font-size: 15px;
+    font-size: 12px;
     font-weight: 300;
     text-overflow: ellipsis;
   }
@@ -227,17 +308,18 @@ const Style = styled.section`
     z-index: 1;
     margin-left: 1%;
     padding: 0 0.5%;
-    width: 15%;
+    width: 30%;
     border-color: #4d90fe;
+    text-overflow: ellipsis;
   }
 
   #destination-input {
     position: absolute;
-    margin-top: 2%;
+    margin-top: 9%;
     z-index: 1;
-    margin-left: 17%;
+    margin-left: 1%;
     padding: 0 0.5%;
-    width: 15%;
+    width: 30%;
     border-color: #4d90fe;
   }
   #right-panel {
