@@ -320,7 +320,6 @@ const Style = styled.section`
   }
   .controls {
     padding-top: 6px;
-    border-color: #4d90fe;
     text-overflow: ellipsis;
     border: 1px solid #4d90fe;
     border-radius: 0px 2px 2px 0px;
@@ -337,6 +336,7 @@ const Style = styled.section`
     position: absolute;
     text-overflow: ellipsis;
     width: 30%;
+    padding-left: 1%;
   }
   #currentLoc {
     cursor: pointer;
