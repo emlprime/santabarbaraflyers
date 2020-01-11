@@ -5,7 +5,6 @@ import React, {
   Component
 } from "react";
 import styled from "styled-components";
-import DogPin from "./DogPin3.png";
 import { Container, Row, Col } from "react-bootstrap";
 import { isEqual, omit, functions } from "lodash";
 
@@ -42,7 +41,7 @@ function Map({ options, onMount, className }) {
     const start = document.getElementById("origin-input")
       .value;
     const end = document.getElementById("destination-input")
-      .value;
+      .name;
     directionsService.route(
       {
         origin: start,
@@ -63,6 +62,7 @@ function Map({ options, onMount, className }) {
   };
 
   //autocomplete
+
   // Create the search box and link it to the UI element.
   const input = document.getElementById("origin-input");
 
@@ -107,6 +107,41 @@ function Map({ options, onMount, className }) {
     map.fitBounds(bounds);
   });
 
+  //enter
+  const onKeyPress = e => {
+    if (e.which === 13) {
+      directions();
+    }
+  };
+
+  const getUserLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function(
+        position
+      ) {
+        const pos = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        };
+        console.log(pos);
+
+        //user location to address
+
+        geocoder.geocode({ location: pos }, function(
+          results,
+          status
+        ) {
+          const newAddress = results[0].formatted_address;
+          setUserAddress(newAddress);
+
+          // call directions
+
+          directions();
+        });
+      });
+      //end
+    }
+  };
   useEffect(() => {
     const onLoad = () => {
       map = new window.google.maps.Map(
@@ -115,37 +150,10 @@ function Map({ options, onMount, className }) {
       );
 
       if (typeof onMount === `function`) onMount(map);
+      getUserLocation();
 
       // get user location
-
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function(
-          position
-        ) {
-          const pos = {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude
-          };
-          console.log(pos);
-
-          //user location to address
-
-          geocoder.geocode({ location: pos }, function(
-            results,
-            status
-          ) {
-            const newAddress = results[0].formatted_address;
-            setUserAddress(newAddress);
-
-            // call directions
-
-            directions();
-          });
-        });
-        //end
-      }
     };
-
     //render map
     if (!window.google) {
       const script = document.createElement(`script`);
@@ -156,54 +164,61 @@ function Map({ options, onMount, className }) {
       return () =>
         script.removeEventListener(`load`, onLoad);
     } else onLoad();
-
-    //end directions
   }, [onMount, options]);
 
   return (
     <Style>
       <Container>
-        <Row>
-          <Col md={8}>
-            <input
-              className="controls"
-              id="origin-input"
-              type="text"
-              value={userAddress}
-              onChange={e => setUserAddress(e.target.value)}
-            />
-            <input
-              id="destination-input"
-              className="controls"
-              type="text"
-              value={SBbFlyerAddress}
-            ></input>
+        <Row id="row1">
+          <Col md={8} id="mapCol">
+            <div id="directions-box">
+              <div class="input-box">
+                <i
+                  onClick={getUserLocation}
+                  class="material-icons icon"
+                  id="currentLoc"
+                >
+                  my_location
+                </i>
+                <input
+                  className="controls"
+                  id="origin-input"
+                  type="text"
+                  value={userAddress}
+                  onChange={e =>
+                    setUserAddress(e.target.value)
+                  }
+                />
+              </div>
+              <div class="input-box" id="input2">
+                <i class="material-icons icon2">place</i>
+                <input
+                  id="destination-input"
+                  className="controls"
+                  type="text"
+                  name={SBbFlyerAddress}
+                  value="Santa Barbara Flyers"
+                  onKeyPress={onKeyPress}
+                ></input>
+              </div>
+              <button
+                onClick={directions}
+                onKeyPress={onKeyPress}
+                id="submit"
+              >
+                Get Directions
+              </button>
+            </div>
 
             {/* <button id="submit">Get Directions</button> */}
-            <button onClick={directions} id="submit">
-              Get Directions
-            </button>
+
             <div
               id="map"
-              style={{
-                height: `60vh`,
-                margin: `1% 0`,
-                borderRadius: `0.5%`
-              }}
+              onKeyPress={onKeyPress}
               {...{ ref, className }}
             ></div>
-            <div id="infowindow-content">
-              <img
-                src=""
-                width="16"
-                height="16"
-                id="place-icon"
-              />
-              <span id="place-name" class="title"></span>
-              <span id="place-address"></span>
-            </div>
           </Col>
-          <Col>
+          <Col id="directionsCol">
             <div id="right-panel"></div>
           </Col>
         </Row>
@@ -239,66 +254,105 @@ Map.defaultProps = {
 };
 
 const Style = styled.section`
-  .controls {
-    border: 1px solid transparent;
-    border-radius: 2px 0 0 2px;
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    height: 32px;
-    outline: none;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  #row1 {
+    border: 1px solid silver;
+  }
+  #map {
+    height: 60vh;
   }
 
+  .adp-placemark {
+    margin: 0;
+    border-top-width: 0px;
+    border-right-width: 0px;
+  }
+
+  #mapCol {
+    margin: 0;
+    padding: 0;
+  }
+  #directionsCol {
+    margin: 0;
+    padding: 0;
+  }
   #submit {
-    border: 1px solid transparent;
+    border: 1px solid #fff;
     border-radius: 2px 0 0 2px;
     box-sizing: border-box;
-    -moz-box-sizing: border-box;
     height: 32px;
     outline: none;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
     background-color: #4d90fe;
     font-family: Roboto;
     font-size: 12px;
-    font-weight: 300;
+    font-weight: 500;
     text-overflow: ellipsis;
-    margin-left: 1%;
-    margin-top: 16%;
-    position: absolute;
+    margin-left: 0%;
+    margin-top: 1%;
     z-index: 1;
-    border-color: #fff;
     color: #fff;
   }
 
-  #origin-input,
-  #destination-input {
+  #origin-input:focus {
+    outline: 2px solid #4d90fe;
+  }
+  #destination-input:focus {
+    outline: 2px solid #4d90fe;
+  }
+
+  .icon,
+  .icon2 {
+    padding: 5px;
+    background: #4d90fe;
+    color: white;
+    min-width: 30px;
+    text-align: center;
+    z-index: 6;
+    font-size: 20px;
+    padding: 6px;
+    border: 1px solid transparent;
+    border-radius: 2px 0 0 2px;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    height: 32px;
+    outline: none;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  }
+  .controls {
+    padding-top: 6px;
+    border-color: #4d90fe;
+    text-overflow: ellipsis;
+    border: 1px solid #4d90fe;
+    border-radius: 0px 2px 2px 0px;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    height: 32px;
+    outline: none;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
     background-color: #fff;
     font-family: Roboto;
     font-size: 12px;
     font-weight: 300;
     text-overflow: ellipsis;
-  }
-
-  #origin-input {
     position: absolute;
-    margin-top: 2%;
-    z-index: 1;
-    margin-left: 1%;
-    padding: 0 0.5%;
-    width: 30%;
-    border-color: #4d90fe;
     text-overflow: ellipsis;
-  }
-
-  #destination-input {
-    position: absolute;
-    margin-top: 9%;
-    z-index: 1;
-    margin-left: 1%;
-    padding: 0 0.5%;
     width: 30%;
-    border-color: #4d90fe;
   }
+  #currentLoc {
+    cursor: pointer;
+  }
+  #directions-box {
+    position: absolute;
+    z-index: 5;
+    width: 100%;
+    margin-top: 1.5%;
+    margin-left: 1%;
+  }
+  #input2 {
+    margin-top: 1%;
+  }
+  /* end test */
+
   #right-panel {
     display: block;
     height: 60vh;
