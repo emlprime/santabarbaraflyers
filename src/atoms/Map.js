@@ -6,7 +6,6 @@ import React, {
 } from "react";
 import styled from "styled-components";
 import { Container, Row, Col } from "react-bootstrap";
-import { isEqual, omit, functions } from "lodash";
 
 function Map({ options, onMount, className }) {
   const ref = useRef();
@@ -226,25 +225,7 @@ function Map({ options, onMount, className }) {
     </Style>
   );
 }
-const shouldUpdate = (prevProps, nextProps) => {
-  delete prevProps.options.mapTypeId;
-  const [prevFuncs, nextFuncs] = [
-    functions(prevProps),
-    functions(nextProps)
-  ];
-  return (
-    isEqual(
-      omit(prevProps, prevFuncs),
-      omit(nextProps, nextFuncs)
-    ) &&
-    prevFuncs.every(
-      fn =>
-        prevProps[fn].toString() ===
-        nextProps[fn].toString()
-    )
-  );
-};
-export default React.memo(Map, shouldUpdate);
+export default Map;
 
 Map.defaultProps = {
   options: {

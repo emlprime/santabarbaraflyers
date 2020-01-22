@@ -126,13 +126,15 @@ const Style = styled.section`
   height: 95vh;
   width: 100%;
   display: grid;
-  grid-template: "header" 30px "filters" auto "subheader" 32px "content";
+  grid-template: "header" 50px "filters" auto "subheader" 40px "content";
   h1 {
+    grid-area: header;
   }
 
   > ul {
     display: flex;
     justify-content: flex-start;
+    grid-area: filters;
 
     > li {
       margin-right: 2rem;
@@ -141,6 +143,7 @@ const Style = styled.section`
 
   h2 {
     margin-left: 1em;
+    grid-area: subheader;
   }
   > div {
     > ul {
