@@ -78,15 +78,17 @@ const Events = () => {
           />
         </li>
       </ul>
-      <input
-        type="text"
-        placeholder="insert magnifying glass here"
-        onChange={e => setCurrentName(e.target.value)}
-        value={currentName}
-      />
-      <button onClick={e => console.log("click")}>
-        push me
-      </button>
+      <Search>
+        <input
+          type="text"
+          placeholder="insert magnifying glass here"
+          onChange={e => setCurrentName(e.target.value)}
+          value={currentName}
+        />
+        <button onClick={e => console.log("click")}>
+          push me
+        </button>
+      </Search>
       <h2> Standard </h2>
       <div>
         <ul>
@@ -112,7 +114,14 @@ const Events = () => {
 };
 
 export default Events;
-
+const Search = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+  padding-left: 7%;
+  > input {
+    width: 80%;
+  }
+`;
 const Style = styled.section`
   h1,
   h2 {
