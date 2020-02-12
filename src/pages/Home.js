@@ -1,6 +1,7 @@
 import React from "react";
 import Events from "./Events";
 import HomePage from "./HomePage";
+import Standings from "./Standings";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import {
@@ -30,6 +31,12 @@ function Home() {
           <Route exact path="/events" component={Events} />
           <Route exact path="/" component={HomePage} />
           <Route exact path="/home" component={HomePage} />
+          <Route
+            exact
+            path="/standings"
+            component={Standings}
+          />
+
           {/* <Route exact path="/standings" component={} />
           <Route exact path="/hone" component={} /> */}
         </Col2>
